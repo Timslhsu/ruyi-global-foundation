@@ -1,0 +1,53 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CheckList from '../components/CheckList.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { formHref } from '../data/site';
+import { useContent, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const y = useContent(lang).youth;
+---
+
+<BaseLayout lang={lang} title={y.title} description={y.description}>
+  <PageHero eyebrow={y.hero.eyebrow} title={y.hero.title} subtitle={y.hero.subtitle}>
+    <a href={formHref('youthWaitlist', 'Youth program waitlist')} class="btn-primary mt-8">{y.waitlist.cta}</a>
+  </PageHero>
+
+  <section class="section">
+    <div class="container-page max-w-3xl">
+      <h2 class="h2">{y.overview.title}</h2>
+      <p class="lead mt-4">{y.overview.text}</p>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-page grid gap-6 md:grid-cols-2">
+      <div class="card">
+        <h2 class="text-xl font-semibold text-ruyi-900">{y.audience.title}</h2>
+        <CheckList items={y.audience.points} class="mt-4" />
+      </div>
+      <div class="card">
+        <h2 class="text-xl font-semibold text-ruyi-900">{y.topics.title}</h2>
+        <CheckList items={y.topics.points} class="mt-4" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-page max-w-3xl">
+      <h2 class="h2">{y.safeguarding.title}</h2>
+      <p class="lead mt-4">{y.safeguarding.text}</p>
+      <CheckList items={y.safeguarding.points} class="mt-6" />
+    </div>
+  </section>
+
+  <CtaBand title={y.waitlist.title} text={y.waitlist.text}>
+    <a href={formHref('youthWaitlist', 'Youth program waitlist')} class="btn-gold">{y.waitlist.cta}</a>
+  </CtaBand>
+</BaseLayout>

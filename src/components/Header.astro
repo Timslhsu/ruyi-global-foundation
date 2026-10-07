@@ -1,0 +1,67 @@
+---
+import { basePath, languages, localizePath, useContent, withBase, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = useContent(lang);
+const path = basePath(Astro.url.pathname);
+const otherLang: Lang = lang === 'en' ? 'zh' : 'en';
+
+const links = [
+  { href: '/about', label: c.nav.about },
+  { href: '/programs', label: c.nav.programs },
+  { href: '/get-involved', label: c.nav.getInvolved },
+  { href: '/contact', label: c.nav.contact },
+];
+const isActive = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+
+<header class="sticky top-0 z-40 border-b border-ruyi-100 bg-paper/95 backdrop-blur">
+  <div class="container-page flex h-16 items-center justify-between gap-4">
+    <a href={localizePath(lang, '/')} class="flex items-center gap-3">
+      <img src={withBase('/favicon.svg')} alt="" width="36" height="36" class="h-9 w-9" />
+      <span class="leading-tight">
+        <span class="block font-serif text-lg font-bold text-ruyi-800">如意基金會</span>
+        <span class="block text-xs tracking-wide text-ink/70">Ruyi Global Foundation</span>
+      </span>
+    </a>
+
+    <nav class="hidden items-center gap-6 md:flex" aria-label="Primary">
+      {
+        links.map((l) => (
+          <a
+            href={localizePath(lang, l.href)}
+            class:list={['text-sm font-medium hover:text-ruyi-700', isActive(l.href) ? 'text-ruyi-700' : 'text-ink/80']}
+            aria-current={isActive(l.href) ? 'page' : undefined}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+      <a href={localizePath(otherLang, path)} lang={otherLang === 'zh' ? 'zh-Hant' : 'en'} hreflang={otherLang === 'zh' ? 'zh-Hant' : 'en'} class="text-sm font-medium text-jade-700 hover:underline">
+        {languages[otherLang]}
+      </a>
+      <a href={localizePath(lang, '/donate')} class="btn-gold px-5! py-2! text-sm">{c.nav.donate}</a>
+    </nav>
+
+    <details class="relative md:hidden">
+      <summary class="cursor-pointer list-none rounded-full border border-ruyi-700 px-4 py-2 text-sm font-semibold text-ruyi-700 [&::-webkit-details-marker]:hidden">
+        {c.nav.menu}
+      </summary>
+      <nav class="absolute right-0 mt-2 flex w-56 flex-col gap-1 rounded-xl border border-ruyi-100 bg-white p-3 shadow-lg" aria-label="Mobile">
+        {
+          links.map((l) => (
+            <a href={localizePath(lang, l.href)} class="rounded-lg px-3 py-2 hover:bg-ruyi-50">
+              {l.label}
+            </a>
+          ))
+        }
+        <a href={localizePath(otherLang, path)} lang={otherLang === 'zh' ? 'zh-Hant' : 'en'} class="rounded-lg px-3 py-2 text-jade-700 hover:bg-ruyi-50">{languages[otherLang]}</a>
+        <a href={localizePath(lang, '/donate')} class="btn-gold mt-2 py-2!">{c.nav.donate}</a>
+      </nav>
+    </details>
+  </div>
+</header>

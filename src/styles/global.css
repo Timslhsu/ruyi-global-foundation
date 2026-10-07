@@ -1,0 +1,66 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ruyi-50: #fbf3f3;
+  --color-ruyi-100: #f5e1e2;
+  --color-ruyi-600: #a32a3a;
+  --color-ruyi-700: #8b1e2d;
+  --color-ruyi-800: #6f1723;
+  --color-ruyi-900: #4f1019;
+  --color-gold-300: #f0d68a;
+  --color-gold-400: #e9c46a;
+  --color-gold-600: #a67c1a;
+  --color-jade-50: #eef6f3;
+  --color-jade-600: #2f6f5e;
+  --color-jade-700: #245648;
+  --color-ink: #1f2328;
+  --color-paper: #fdfbf7;
+
+  --font-sans: "Inter", "Noto Sans TC", ui-sans-serif, system-ui, -apple-system, "PingFang TC", "Microsoft JhengHei", sans-serif;
+  --font-serif: "Noto Serif TC", ui-serif, Georgia, serif;
+}
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    @apply bg-paper text-ink antialiased;
+  }
+  :focus-visible {
+    @apply outline-2 outline-offset-2 outline-ruyi-700;
+  }
+}
+
+@layer components {
+  .container-page {
+    @apply mx-auto w-full max-w-6xl px-5 sm:px-8;
+  }
+  .section {
+    @apply py-16 sm:py-20;
+  }
+  .eyebrow {
+    @apply text-sm font-semibold tracking-wider text-gold-600 uppercase;
+  }
+  .h2 {
+    @apply font-serif text-3xl font-bold text-ruyi-900 sm:text-4xl;
+  }
+  .lead {
+    @apply text-lg leading-relaxed text-ink/80;
+  }
+  .card {
+    @apply rounded-2xl border border-ruyi-100 bg-white p-6 shadow-sm;
+  }
+  .btn-primary {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-semibold transition-colors bg-ruyi-700 text-white hover:bg-ruyi-800;
+  }
+  .btn-gold {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-semibold transition-colors bg-gold-400 text-ruyi-900 hover:bg-gold-300;
+  }
+  .btn-outline {
+    @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-semibold transition-colors border-2 border-ruyi-700 text-ruyi-700 hover:bg-ruyi-50;
+  }
+  .prose-list {
+    @apply list-disc space-y-2 pl-5 marker:text-gold-600;
+  }
+}

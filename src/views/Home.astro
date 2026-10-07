@@ -1,0 +1,103 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { localizePath, useContent, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = useContent(lang);
+const h = c.home;
+const programCards = [
+  { ...c.programs.network, href: '/programs/mentorship-network', upcoming: false },
+  { ...c.programs.youth, href: '/programs/youth', upcoming: true },
+];
+---
+
+<BaseLayout lang={lang} title={h.title} description={h.description}>
+  <section class="relative overflow-hidden bg-gradient-to-br from-ruyi-50 via-paper to-jade-50">
+    <div aria-hidden="true" class="pointer-events-none absolute -top-24 -right-24 h-96 w-96 rounded-full bg-gold-300/30 blur-3xl"></div>
+    <div class="container-page relative py-20 sm:py-28">
+      <p class="eyebrow">{h.hero.eyebrow}</p>
+      <h1 class="mt-3 max-w-3xl font-serif text-4xl leading-tight font-bold text-ruyi-900 sm:text-6xl">{h.hero.title}</h1>
+      <p class="lead mt-6 max-w-2xl">{h.hero.subtitle}</p>
+      <div class="mt-8 flex flex-wrap gap-3">
+        <a href={localizePath(lang, '/get-involved#mentees')} class="btn-primary">{h.hero.ctaMentee}</a>
+        <a href={localizePath(lang, '/get-involved#mentors')} class="btn-outline">{h.hero.ctaMentor}</a>
+        <a href={localizePath(lang, '/donate')} class="btn-gold">{h.hero.ctaDonate}</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-page max-w-4xl text-center">
+      <p class="eyebrow">{h.mission.eyebrow}</p>
+      <p class="mt-4 font-serif text-2xl leading-relaxed text-ruyi-900 sm:text-3xl">{h.mission.text}</p>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-page">
+      <h2 class="h2">{h.audiences.title}</h2>
+      <div class="mt-10 grid gap-6 md:grid-cols-3">
+        {
+          h.audiences.items.map((a) => (
+            <div class="card flex flex-col">
+              <h3 class="text-xl font-semibold text-ruyi-800">{a.title}</h3>
+              <p class="mt-3 flex-1 text-ink/80">{a.text}</p>
+              <a href={localizePath(lang, a.href)} class="mt-5 font-semibold text-jade-700 hover:underline">{a.cta} →</a>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-page">
+      <h2 class="h2">{h.why.title}</h2>
+      <div class="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+        {
+          h.why.items.map((w) => (
+            <div>
+              <div aria-hidden="true" class="h-1 w-12 rounded bg-gold-400"></div>
+              <h3 class="mt-4 font-semibold text-ruyi-900">{w.title}</h3>
+              <p class="mt-2 text-sm text-ink/80">{w.text}</p>
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-page">
+      <h2 class="h2">{h.programs.title}</h2>
+      <div class="mt-10 grid gap-6 md:grid-cols-2">
+        {
+          programCards.map((p) => (
+            <a href={localizePath(lang, p.href)} class="card group block transition-shadow hover:shadow-md">
+              <div class="flex flex-wrap items-center gap-2 text-sm">
+                <span class="rounded-full bg-jade-50 px-3 py-1 font-medium text-jade-700">{p.ages}</span>
+                <span class:list={['rounded-full px-3 py-1 font-medium', p.upcoming ? 'bg-gold-300/40 text-ruyi-900' : 'bg-ruyi-100 text-ruyi-800']}>{p.status}</span>
+              </div>
+              <h3 class="mt-4 text-2xl font-semibold text-ruyi-900 group-hover:text-ruyi-700">{p.name}</h3>
+              <p class="mt-3 text-ink/80">{p.summary}</p>
+              <span class="mt-4 inline-block font-semibold text-jade-700">{c.common.learnMore} →</span>
+            </a>
+          ))
+        }
+      </div>
+      <div class="mt-10 rounded-2xl border border-gold-400 bg-gold-300/20 p-6">
+        <p class="font-semibold text-ruyi-900">{h.launch.title}</p>
+        <p class="mt-1 text-ink/80">{h.launch.text}</p>
+      </div>
+    </div>
+  </section>
+
+  <CtaBand title={h.donateBand.title} text={h.donateBand.text}>
+    <a href={localizePath(lang, '/donate')} class="btn-gold">{h.donateBand.cta}</a>
+  </CtaBand>
+</BaseLayout>

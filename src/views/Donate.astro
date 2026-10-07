@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CheckList from '../components/CheckList.astro';
+import { formHref, site } from '../data/site';
+import { useContent, withBase, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = useContent(lang);
+const d = c.donate;
+---
+
+<BaseLayout lang={lang} title={d.title} description={d.description}>
+  <PageHero title={d.hero.title} subtitle={d.hero.subtitle} />
+
+  <section class="section" id="zelle">
+    <div class="container-page grid items-start gap-10 lg:grid-cols-2">
+      <div class="card border-2 border-gold-400 text-center">
+        <h2 class="font-serif text-2xl font-bold text-ruyi-900">{d.zelle.title}</h2>
+        <img src={withBase(site.zelle.qrImage)} alt={d.zelle.alt} width="340" height="340" class="mx-auto mt-4 h-64 w-64 sm:h-72 sm:w-72" />
+        <p class="mt-2 font-semibold tracking-wide">{site.zelle.recipientName}</p>
+        <ol class="mx-auto mt-6 max-w-sm list-decimal space-y-2 pl-5 text-left text-sm text-ink/85">
+          {d.zelle.steps.map((s) => <li>{s}</li>)}
+        </ol>
+        <p class="mt-6 text-sm text-ink/70">
+          {d.zelle.receipt} <a href={`mailto:${site.email}?subject=${encodeURIComponent('Donation receipt')}`} class="font-semibold text-jade-700 underline">{site.email}</a>
+        </p>
+      </div>
+      <div>
+        <h2 class="h2">{d.impact.title}</h2>
+        <ul class="mt-6 space-y-4">
+          {
+            d.impact.items.map((i) => (
+              <li class="flex items-start gap-4">
+                <span class="min-w-24 rounded-xl bg-ruyi-700 px-3 py-2 text-center text-lg font-bold text-white">{i.amount}</span>
+                <span class="pt-2 text-ink/85">{i.text}</span>
+              </li>
+            ))
+          }
+        </ul>
+        <p class="mt-3 text-xs text-ink/60">{d.impact.note}</p>
+        <h3 class="mt-10 text-xl font-semibold text-ruyi-900">{d.supports.title}</h3>
+        <CheckList items={d.supports.points} class="mt-4" />
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-page grid gap-6 md:grid-cols-2">
+      <div class="card">
+        <h2 class="text-xl font-semibold text-ruyi-900">{d.tax.title}</h2>
+        <p class="mt-3 text-ink/80">{d.tax.text}</p>
+      </div>
+      <div class="card">
+        <h2 class="text-xl font-semibold text-ruyi-900">{d.corporate.title}</h2>
+        <p class="mt-3 text-ink/80">{d.corporate.text}</p>
+        <a href={formHref('organization', 'Corporate sponsorship inquiry')} class="btn-primary mt-5">{d.corporate.cta}</a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

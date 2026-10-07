@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import CheckList from '../components/CheckList.astro';
+import StepFlow from '../components/StepFlow.astro';
+import PricingTable from '../components/PricingTable.astro';
+import FAQ from '../components/FAQ.astro';
+import CtaBand from '../components/CtaBand.astro';
+import { formHref } from '../data/site';
+import { localizePath, useContent, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const n = useContent(lang).network;
+---
+
+<BaseLayout lang={lang} title={n.title} description={n.description}>
+  <PageHero eyebrow={n.hero.eyebrow} title={n.hero.title} subtitle={n.hero.subtitle} />
+
+  <section class="section">
+    <div class="container-page grid gap-10 lg:grid-cols-2">
+      <div>
+        <h2 class="h2">{n.problem.title}</h2>
+        <p class="lead mt-4">{n.problem.text}</p>
+      </div>
+      <div>
+        <h2 class="h2">{n.value.title}</h2>
+        <div class="mt-4 grid gap-4 sm:grid-cols-2">
+          {
+            n.value.items.map((v) => (
+              <div class="card">
+                <h3 class="mb-3 font-semibold text-jade-700">{v.title}</h3>
+                <CheckList items={v.points} class="text-sm" />
+              </div>
+            ))
+          }
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-page">
+      <h2 class="h2">{n.steps.title}</h2>
+      <div class="mt-8"><StepFlow steps={n.steps.items} /></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-page">
+      <h2 class="h2">{n.matches.title}</h2>
+      <div class="mt-8 overflow-x-auto rounded-2xl border border-ruyi-100 bg-white">
+        <table class="w-full text-left">
+          <thead class="bg-ruyi-50 text-sm text-ruyi-900">
+            <tr><th scope="col" class="p-4">{n.matches.needLabel}</th><th scope="col" class="p-4">{n.matches.mentorLabel}</th></tr>
+          </thead>
+          <tbody class="divide-y divide-ruyi-100">
+            {n.matches.items.map((m) => <tr><td class="p-4 font-medium">{m.need}</td><td class="p-4 text-ink/80">{m.mentor}</td></tr>)}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-page grid gap-10 lg:grid-cols-2">
+      <div>
+        <h2 class="h2">{n.mentors.title}</h2>
+        <p class="mt-4 text-ink/80">{n.mentors.text}</p>
+        <CheckList items={n.mentors.points} class="mt-4" />
+        <p class="mt-6 rounded-xl bg-jade-50 p-4 text-sm text-jade-700">{n.mentors.note}</p>
+      </div>
+      <div id="scholarship" class="card self-start border-gold-400">
+        <h2 class="font-serif text-2xl font-bold text-ruyi-900">{n.scholarship.title}</h2>
+        <p class="mt-3 text-ink/80">{n.scholarship.text}</p>
+        <a href={localizePath(lang, '/get-involved#scholarship')} class="mt-4 inline-block font-semibold text-jade-700 hover:underline">{n.scholarship.cta} →</a>
+      </div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="container-page">
+      <h2 class="h2">{n.pricing.title}</h2>
+      <div class="mt-8"><PricingTable lang={lang} /></div>
+    </div>
+  </section>
+
+  <section class="section bg-white">
+    <div class="container-page max-w-3xl">
+      <h2 class="h2">{n.faq.title}</h2>
+      <div class="mt-8"><FAQ items={n.faq.items} /></div>
+    </div>
+  </section>
+
+  <CtaBand title={n.cta.title}>
+    <a href={formHref('mentee', 'Participant application')} class="btn-gold">{n.cta.mentee}</a>
+    <a href={formHref('mentor', 'Mentor application')} class="btn-outline border-white! text-white! hover:bg-white/10!">{n.cta.mentor}</a>
+  </CtaBand>
+</BaseLayout>

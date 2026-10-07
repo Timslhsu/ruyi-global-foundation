@@ -1,0 +1,35 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import PageHero from '../components/PageHero.astro';
+import { localizePath, useContent, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+}
+
+const { lang } = Astro.props;
+const c = useContent(lang);
+const p = c.programs;
+const cards = [
+  { ...p.network, href: '/programs/mentorship-network' },
+  { ...p.youth, href: '/programs/youth' },
+];
+---
+
+<BaseLayout lang={lang} title={p.title} description={p.description}>
+  <PageHero title={p.title} subtitle={p.intro} />
+  <section class="section">
+    <div class="container-page grid gap-6 md:grid-cols-2">
+      {
+        cards.map((card) => (
+          <a href={localizePath(lang, card.href)} class="card group block transition-shadow hover:shadow-md">
+            <p class="eyebrow">{card.ages} · {card.status}</p>
+            <h2 class="mt-3 text-2xl font-semibold text-ruyi-900 group-hover:text-ruyi-700">{card.name}</h2>
+            <p class="mt-3 text-ink/80">{card.summary}</p>
+            <span class="mt-4 inline-block font-semibold text-jade-700">{c.common.learnMore} →</span>
+          </a>
+        ))
+      }
+    </div>
+  </section>
+</BaseLayout>

@@ -1,0 +1,81 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+import { basePath, localizePath, useContent, withBase, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  title: string;
+  description?: string;
+}
+
+const { lang, title, description } = Astro.props;
+const c = useContent(lang);
+const pageTitle = title.startsWith(site.legalName) || title.startsWith(site.chineseName) ? title : `${title} | ${c.meta.siteName}`;
+const pageDescription = description ?? c.meta.defaultDescription;
+const path = basePath(Astro.url.pathname);
+const canonical = new URL(localizePath(lang, path), Astro.site).href;
+const alternates = (['en', 'zh'] as const).map((l) => ({
+  hreflang: l === 'en' ? 'en' : 'zh-Hant',
+  href: new URL(localizePath(l, path), Astro.site).href,
+}));
+
+const jsonLd = {
+  '@context': 'https://schema.org',
+  '@type': 'NGO',
+  name: site.legalName,
+  alternateName: site.chineseName,
+  url: site.url,
+  email: site.email,
+  taxID: site.ein,
+  nonprofitStatus: 'Nonprofit501c3',
+  foundingDate: site.incorporated,
+  address: {
+    '@type': 'PostalAddress',
+    streetAddress: '774 Navajo Drive',
+    addressLocality: 'Riverside',
+    addressRegion: 'CA',
+    postalCode: '92507',
+    addressCountry: 'US',
+  },
+};
+---
+
+<!doctype html>
+<html lang={c.meta.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{pageTitle}</title>
+    <meta name="description" content={pageDescription} />
+    <link rel="canonical" href={canonical} />
+    {alternates.map((a) => <link rel="alternate" hreflang={a.hreflang} href={a.href} />)}
+    <link rel="alternate" hreflang="x-default" href={alternates[0].href} />
+    <link rel="icon" type="image/svg+xml" href={withBase('/favicon.svg')} />
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={c.meta.siteName} />
+    <meta property="og:title" content={pageTitle} />
+    <meta property="og:description" content={pageDescription} />
+    <meta property="og:url" content={canonical} />
+    <meta property="og:locale" content={lang === 'en' ? 'en_US' : 'zh_TW'} />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;700&display=swap"
+    />
+    <script type="application/ld+json" set:html={JSON.stringify(jsonLd)} />
+  </head>
+  <body class="flex min-h-screen flex-col">
+    <a href="#main" class="sr-only focus:not-sr-only focus:absolute focus:top-2 focus:left-2 focus:z-50 focus:rounded focus:bg-white focus:px-4 focus:py-2">
+      {c.nav.skip}
+    </a>
+    <Header lang={lang} />
+    <main id="main" class="flex-1">
+      <slot />
+    </main>
+    <Footer lang={lang} />
+  </body>
+</html>

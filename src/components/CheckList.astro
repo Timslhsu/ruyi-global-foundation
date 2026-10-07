@@ -1,0 +1,19 @@
+---
+interface Props {
+  items: string[];
+  class?: string;
+}
+
+const { items, class: className } = Astro.props;
+---
+
+<ul class:list={['space-y-2', className]}>
+  {
+    items.map((item) => (
+      <li class="flex gap-3">
+        <span aria-hidden="true" class="mt-1 text-gold-600">◆</span>
+        <span>{item}</span>
+      </li>
+    ))
+  }
+</ul>
