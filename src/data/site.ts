@@ -7,8 +7,6 @@ export const site = {
   incorporated: '2026-06-14',
   // TODO: confirm the public contact email before launch.
   email: 'info@ruyiglobalfoundation.org',
-  principalOffice: '774 Navajo Drive, Riverside, CA 92507',
-  mailingAddress: '10598 Flora Vista Ave, Cupertino, CA 95014',
   zelle: {
     // TODO: the bank QR page shows "ruyiglobalfpundation" — confirm spelling with U.S. Bank.
     recipientName: 'RUYI GLOBAL FOUNDATION',
