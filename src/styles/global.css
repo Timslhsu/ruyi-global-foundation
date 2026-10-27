@@ -60,6 +60,15 @@
   .btn-outline {
     @apply inline-flex items-center justify-center gap-2 rounded-full px-6 py-3 text-base font-semibold transition-colors border-2 border-ruyi-700 text-ruyi-700 hover:bg-ruyi-50;
   }
+  .btn-disabled {
+    @apply inline-flex cursor-not-allowed items-center justify-center gap-2 rounded-full bg-gray-300 px-6 py-3 text-base font-semibold text-gray-600 select-none;
+  }
+  .field-label {
+    @apply mb-1 block text-sm font-semibold text-ruyi-900;
+  }
+  .field-input {
+    @apply w-full rounded-lg border border-ruyi-100 bg-white px-3 py-2 text-base focus:border-ruyi-700;
+  }
   .prose-list {
     @apply list-disc space-y-2 pl-5 marker:text-gold-600;
   }

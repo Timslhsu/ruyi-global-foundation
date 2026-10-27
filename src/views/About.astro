@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import CheckList from '../components/CheckList.astro';
 import { board } from '../data/board';
+import { site } from '../data/site';
 import { useContent, type Lang } from '../i18n/utils';
 
 interface Props {
@@ -69,25 +70,29 @@ const a = useContent(lang).about;
     </div>
   </section>
 
-  <section class="section bg-white">
-    <div class="container-page">
-      <h2 class="h2">{a.board.title}</h2>
-      <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
-        {
-          board.map((m) => (
-            <li class="card text-center">
-              <div aria-hidden="true" class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-ruyi-50 font-serif text-2xl text-ruyi-700">
-                {m.name.charAt(0)}
-              </div>
-              <p class="mt-3 font-semibold text-ruyi-900">{m.name}</p>
-              {m.nameZh && <p class="text-sm text-ink/70">{m.nameZh}</p>}
-              <p class="mt-1 text-sm text-jade-700">{a.board.roles[m.role]}</p>
-            </li>
-          ))
-        }
-      </ul>
-    </div>
-  </section>
+  {
+    site.features.showBoard && (
+    <section class="section bg-white">
+      <div class="container-page">
+        <h2 class="h2">{a.board.title}</h2>
+        <ul class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+          {
+            board.map((m) => (
+              <li class="card text-center">
+                <div aria-hidden="true" class="mx-auto flex h-16 w-16 items-center justify-center rounded-full bg-ruyi-50 font-serif text-2xl text-ruyi-700">
+                  {m.name.charAt(0)}
+                </div>
+                <p class="mt-3 font-semibold text-ruyi-900">{m.name}</p>
+                {m.nameZh && <p class="text-sm text-ink/70">{m.nameZh}</p>}
+                <p class="mt-1 text-sm text-jade-700">{a.board.roles[m.role]}</p>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </section>
+    )
+  }
 
   <section class="section">
     <div class="container-page grid gap-10 lg:grid-cols-2">

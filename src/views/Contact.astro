@@ -1,7 +1,8 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
-import { formHref, site } from '../data/site';
+import MailtoForm from '../components/MailtoForm.astro';
+import { contactFields } from '../data/forms';
 import { useContent, type Lang } from '../i18n/utils';
 
 interface Props {
@@ -17,9 +18,19 @@ const k = useContent(lang).contact;
   <section class="section">
     <div class="container-page max-w-xl">
       <div class="card">
-        <h2 class="font-semibold text-jade-700">{k.emailTitle}</h2>
-        <a href={`mailto:${site.email}`} class="mt-2 block font-semibold break-all text-ruyi-800 hover:underline">{site.email}</a>
-        <a href={formHref('contact', 'Website inquiry')} class="btn-primary mt-5">{k.formCta}</a>
+        <h2 class="text-xl font-semibold text-ruyi-900">{k.formTitle}</h2>
+        <p class="mt-2 text-ink/80">{k.formText}</p>
+        <div class="mt-5">
+          <MailtoForm
+            id="contact-form"
+            lang={lang}
+            buttonLabel={k.formCta}
+            title={k.form.title}
+            subject="Website inquiry"
+            fields={contactFields(lang)}
+            submitLabel={k.form.submit}
+          />
+        </div>
       </div>
     </div>
   </section>

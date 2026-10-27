@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import CheckList from '../components/CheckList.astro';
+import MailtoForm from '../components/MailtoForm.astro';
+import { receiptFields } from '../data/forms';
 import { formHref, site } from '../data/site';
 import { useContent, withBase, type Lang } from '../i18n/utils';
 
@@ -26,9 +28,19 @@ const d = c.donate;
         <ol class="mx-auto mt-6 max-w-sm list-decimal space-y-2 pl-5 text-left text-sm text-ink/85">
           {d.zelle.steps.map((s) => <li>{s}</li>)}
         </ol>
-        <p class="mt-6 text-sm text-ink/70">
-          {d.zelle.receipt} <a href={`mailto:${site.email}?subject=${encodeURIComponent('Donation receipt')}`} class="font-semibold text-jade-700 underline">{site.email}</a>
-        </p>
+        <div class="mt-6">
+          <MailtoForm
+            id="receipt-form"
+            lang={lang}
+            buttonLabel={d.receipt.button}
+            buttonClass="btn-outline py-2!"
+            title={d.receipt.title}
+            intro={d.receipt.intro}
+            subject="Donation receipt request"
+            fields={receiptFields(lang)}
+            submitLabel={d.receipt.submit}
+          />
+        </div>
       </div>
       <div>
         <h2 class="h2">{d.impact.title}</h2>

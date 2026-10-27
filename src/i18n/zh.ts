@@ -29,6 +29,16 @@ const zh: Content = {
     comingSoon: '2028 年推出',
     pilot: '試辦',
     emailUs: '來信聯絡',
+    comingSoonBadge: '即將推出',
+    enrollmentSoon: '即將開放報名',
+  },
+  forms: {
+    close: '關閉',
+    cancel: '取消',
+    requiredNote: '標示 * 的欄位為必填。',
+    selectPlaceholder: '請選擇',
+    mailtoNote: '送出後會開啟您的郵件程式並自動帶入以上資料，請在郵件程式中按下「寄出」完成申請。',
+    sentNote: '郵件程式應已開啟。若沒有開啟，請改用已設定郵件程式的裝置。',
   },
 
   home: {
@@ -96,6 +106,10 @@ const zh: Content = {
     title: '計畫介紹',
     description: '如意基金會的導師計畫：服務 18–30 歲年輕人，並將於 2028 年起服務 12–18 歲青少年。',
     intro: '如意的導師計畫全程線上進行，無論住在哪裡，都能向有經驗的人學習。',
+    comingSoon: {
+      title: '即將推出',
+      text: '我們的計畫正在籌備中，報名即將開放，敬請期待。歡迎現在就申請成為導師。',
+    },
     network: {
       name: '退休導師網絡',
       ages: '18–30 歲',
@@ -258,6 +272,24 @@ const zh: Content = {
       training: ['如意的使命、價值與計畫介紹', '有效的導師陪伴與傾聽', '文化敏感度', '界線、倫理與保密', '視訊與排程工具的使用'],
       commitment: '時間彈性、負擔有限，由您決定可以服務的時段。導師皆為志工。',
       cta: '申請成為導師',
+      form: {
+        title: '導師申請',
+        intro: '請告訴我們您的經歷。我們會審閱您的申請，並與您聯繫後續的審查與培訓事宜。',
+        submit: '送出申請',
+        fields: {
+          name: '姓名',
+          email: 'Email',
+          phone: '電話',
+          location: '所在城市／州',
+          industry: '產業／專業領域',
+          years: '工作年資（年）',
+          experiences: '可以分享的經驗',
+          availability: '每月可提供的對談次數',
+          about: '簡短自我介紹與擔任導師的動機',
+          consent: '我同意接受背景審查並完成導師培訓。',
+        },
+        availabilityOptions: ['1–2 次', '3–4 次', '5 次以上'],
+      },
     },
     organizations: {
       title: '機構合作',
@@ -360,7 +392,21 @@ const zh: Content = {
       title: '透過 Zelle® 捐款',
       steps: ['開啟您的銀行 App，進入 Zelle®', '選擇轉帳並掃描 QR code', '確認收款人為「RUYI GLOBAL FOUNDATION」', '輸入金額後送出'],
       alt: '捐款給如意基金會的 Zelle QR code',
-      receipt: '如需捐款收據，請來信告知您的姓名、金額與捐款日期。',
+    },
+    receipt: {
+      button: '索取捐款收據',
+      title: '索取捐款收據',
+      intro: '捐款完成後，請填寫以下資料，方便我們核對款項並開立抵稅收據。',
+      submit: '送出申請',
+      fields: {
+        name: '捐款人姓名',
+        bank: '匯款銀行',
+        account: '匯款帳戶',
+        accountHint: '請填寫帳號末 4 碼，或 Zelle 使用的 email／電話。請勿填寫完整帳號。',
+        date: '捐款日期',
+        amount: '捐款金額（美元）',
+        replyEmail: '收據寄送 email',
+      },
     },
     tax: {
       title: '抵稅說明',
@@ -377,21 +423,29 @@ const zh: Content = {
     title: '聯絡我們',
     description: '關於導師計畫、合作或捐款，歡迎與如意基金會聯繫。',
     hero: { title: '聯絡我們', subtitle: '對導師計畫、合作或捐款有任何問題，歡迎與我們聯繫。' },
-    emailTitle: '電子郵件',
+    formTitle: '寫信給我們',
+    formText: '請使用聯絡表單，我們會盡快回覆您。',
     formCta: '寫信給我們',
+    form: {
+      title: '聯絡我們',
+      submit: '送出訊息',
+      fields: { name: '您的姓名', email: '您的 email', topic: '主題', message: '訊息內容' },
+      topics: ['一般問題', '導師計畫', '機構合作', '捐款與贊助'],
+    },
   },
 
   privacy: {
     title: '隱私權政策',
     description: '如意基金會如何蒐集、使用與保護個人資料。',
     effective: '自 2026 年 10 月起生效',
+    contactLink: '聯絡我們',
     sections: [
       { title: '我們蒐集的資料', body: ['我們只蒐集執行計畫所需的資料：聯絡方式、年齡與教育程度、目標與興趣、可參與時段；申請獎學金者另需提供所得證明文件。'] },
       { title: '資料用途', body: ['用於審核申請、配對導師、安排對談、處理付款、審核獎學金，以及透過回饋改善計畫品質。'] },
       { title: '我們絕不做的事', body: ['我們不出售個人資料。除了營運計畫所需的服務供應商（例如金流）以外，不會與第三方分享個人資料。'] },
       { title: '資料安全', body: ['資料存放於有密碼保護的系統，管理員帳號啟用雙重驗證，並限制可存取的人員。付款由符合 PCI 標準的服務商處理，並定期備份。'] },
       { title: '保存期限', body: ['財務紀錄保存 7 年，計畫紀錄保存 3 年，期滿後安全刪除。'] },
-      { title: '您的權利（CCPA）', body: ['依據加州消費者隱私法，您可以要求查閱、刪除您的資料，或拒絕資料分享。請來信提出申請。'] },
+      { title: '您的權利（CCPA）', body: ['依據加州消費者隱私法，您可以要求查閱、刪除您的資料，或拒絕資料分享。請透過聯絡表單提出申請。'] },
     ],
   },
 };

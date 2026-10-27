@@ -3,6 +3,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import PageHero from '../components/PageHero.astro';
 import CheckList from '../components/CheckList.astro';
 import CtaBand from '../components/CtaBand.astro';
+import EnrollButton from '../components/EnrollButton.astro';
 import { formHref } from '../data/site';
 import { useContent, type Lang } from '../i18n/utils';
 
@@ -16,7 +17,7 @@ const y = useContent(lang).youth;
 
 <BaseLayout lang={lang} title={y.title} description={y.description}>
   <PageHero eyebrow={y.hero.eyebrow} title={y.hero.title} subtitle={y.hero.subtitle}>
-    <a href={formHref('youthWaitlist', 'Youth program waitlist')} class="btn-primary mt-8">{y.waitlist.cta}</a>
+    <EnrollButton lang={lang} href={formHref('youthWaitlist', 'Youth program waitlist')} label={y.waitlist.cta} class="mt-8" />
   </PageHero>
 
   <section class="section">
@@ -48,6 +49,6 @@ const y = useContent(lang).youth;
   </section>
 
   <CtaBand title={y.waitlist.title} text={y.waitlist.text}>
-    <a href={formHref('youthWaitlist', 'Youth program waitlist')} class="btn-gold">{y.waitlist.cta}</a>
+    <EnrollButton lang={lang} href={formHref('youthWaitlist', 'Youth program waitlist')} label={y.waitlist.cta} variant="gold" onDark />
   </CtaBand>
 </BaseLayout>

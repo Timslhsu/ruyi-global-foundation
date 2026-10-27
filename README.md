@@ -13,7 +13,10 @@ npx astro check   # type check
 
 ## Where to edit
 - Page copy: `src/i18n/en.ts` and `src/i18n/zh.ts` (same structure; `zh.ts` is type-checked against `en.ts`)
-- Organization facts, email, form links, Zelle: `src/data/site.ts`
+- Organization facts, form links, Zelle: `src/data/site.ts`
+- **Recipient email for all forms and email buttons**: `contactEmail` in `src/data/site.ts` (never shown as page text)
+- Feature switches in `src/data/site.ts` → `features`: `showBoard` (Board of Directors on About), `enrollmentOpen` (participant applications / youth waitlist)
+- Form fields (mentor application, donation receipt, contact): `src/data/forms.ts`; forms open the visitor's email app via mailto (`src/components/MailtoForm.astro`)
 - Board: `src/data/board.ts` · Pilot prices: `src/data/pricing.ts`
 - Page layouts: `src/views/*.astro` (each rendered by `src/pages/` for `/` and `/zh/`)
 
@@ -27,5 +30,5 @@ When a custom domain is ready: set `site` to the domain, remove `base`, update `
 and add the domain under repo Settings → Pages.
 
 ## Before launch
-- Confirm the public email (`site.email`) and add form URLs (`site.forms`); empty forms fall back to email links.
+- Confirm `contactEmail` can receive mail, and optionally add external form URLs (`site.forms`); empty values fall back to email links.
 - Confirm the Zelle recipient spelling with U.S. Bank and test-scan `public/images/zelle-qr.png`.

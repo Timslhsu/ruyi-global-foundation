@@ -1,0 +1,31 @@
+---
+import { site } from '../data/site';
+import { useContent, type Lang } from '../i18n/utils';
+
+interface Props {
+  lang: Lang;
+  href: string;
+  label: string;
+  variant?: 'primary' | 'gold';
+  /** Lighten the "coming soon" note when placed on a dark background. */
+  onDark?: boolean;
+  class?: string;
+}
+
+// Student enrollment CTA; rendered greyed out and inert until site.features.enrollmentOpen is true.
+const { lang, href, label, variant = 'primary', onDark = false, class: className } = Astro.props;
+const c = useContent(lang);
+---
+
+{
+  site.features.enrollmentOpen ? (
+    <a href={href} class:list={[variant === 'gold' ? 'btn-gold' : 'btn-primary', className]}>
+      {label}
+    </a>
+  ) : (
+    <span class:list={['inline-flex flex-col items-start gap-1', className]}>
+      <span role="link" aria-disabled="true" class="btn-disabled">{label}</span>
+      <span class:list={['text-xs', onDark ? 'text-white/80' : 'text-ink/60']}>{c.common.enrollmentSoon}</span>
+    </span>
+  )
+}

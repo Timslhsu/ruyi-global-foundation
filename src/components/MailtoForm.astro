@@ -1,0 +1,145 @@
+---
+import { site } from '../data/site';
+import { useContent, type Lang } from '../i18n/utils';
+
+export interface FormField {
+  name: string;
+  label: string;
+  type: 'text' | 'email' | 'tel' | 'date' | 'number' | 'textarea' | 'select' | 'checkboxes' | 'consent';
+  required?: boolean;
+  hint?: string;
+  options?: string[];
+  min?: number;
+  step?: number;
+}
+
+interface Props {
+  id: string;
+  lang: Lang;
+  buttonLabel: string;
+  buttonClass?: string;
+  title: string;
+  intro?: string;
+  /** Email subject; the value of the `name` field is appended when present. */
+  subject: string;
+  fields: FormField[];
+  submitLabel: string;
+}
+
+// Opens a dialog form; on submit, the browser composes an email to site.contactEmail via mailto.
+const { id, lang, buttonLabel, buttonClass = 'btn-primary', title, intro, subject, fields, submitLabel } = Astro.props;
+const f = useContent(lang).forms;
+const fieldMeta = JSON.stringify(fields.map(({ name, label, type }) => ({ name, label, type })));
+---
+
+<button type="button" class={buttonClass} data-dialog-open={id}>{buttonLabel}</button>
+
+<dialog id={id} aria-labelledby={`${id}-title`} class="m-auto w-[min(40rem,calc(100%-2rem))] rounded-2xl bg-paper p-0 text-left text-ink shadow-2xl backdrop:bg-ink/60">
+  <form data-mailto data-to={site.contactEmail} data-subject={subject} data-fields={fieldMeta} class="max-h-[85vh] overflow-y-auto p-6 sm:p-8">
+    <div class="flex items-start justify-between gap-4">
+      <h2 id={`${id}-title`} class="font-serif text-2xl font-bold text-ruyi-900">{title}</h2>
+      <button type="button" data-dialog-close class="rounded-full px-3 py-1 text-2xl leading-none text-ink/60 hover:bg-ruyi-50" aria-label={f.close}>×</button>
+    </div>
+    {intro && <p class="mt-2 text-sm text-ink/80">{intro}</p>}
+    <p class="mt-2 text-xs text-ink/60">{f.requiredNote}</p>
+
+    <div class="mt-6 space-y-4">
+      {
+        fields.map((field) => {
+          const inputId = `${id}-${field.name}`;
+          const hintId = field.hint ? `${inputId}-hint` : undefined;
+          const label = (
+            <>
+              {field.label}
+              {field.required && <span class="text-ruyi-700"> *</span>}
+            </>
+          );
+          if (field.type === 'checkboxes') {
+            return (
+              <fieldset>
+                <legend class="field-label">{label}</legend>
+                <div class="grid gap-2 sm:grid-cols-2">
+                  {field.options?.map((opt) => (
+                    <label class="flex items-center gap-2 text-sm">
+                      <input type="checkbox" name={field.name} value={opt} class="h-4 w-4 accent-ruyi-700" />
+                      {opt}
+                    </label>
+                  ))}
+                </div>
+              </fieldset>
+            );
+          }
+          if (field.type === 'consent') {
+            return (
+              <label class="flex items-start gap-3 text-sm">
+                <input type="checkbox" name={field.name} value="yes" required={field.required} class="mt-0.5 h-4 w-4 accent-ruyi-700" />
+                <span>{label}</span>
+              </label>
+            );
+          }
+          return (
+            <div>
+              <label for={inputId} class="field-label">{label}</label>
+              {field.type === 'textarea' ? (
+                <textarea id={inputId} name={field.name} rows="4" required={field.required} aria-describedby={hintId} class="field-input" />
+              ) : field.type === 'select' ? (
+                <select id={inputId} name={field.name} required={field.required} aria-describedby={hintId} class="field-input">
+                  <option value="">{f.selectPlaceholder}</option>
+                  {field.options?.map((opt) => <option value={opt}>{opt}</option>)}
+                </select>
+              ) : (
+                <input
+                  id={inputId}
+                  name={field.name}
+                  type={field.type}
+                  required={field.required}
+                  min={field.min}
+                  step={field.step}
+                  aria-describedby={hintId}
+                  class="field-input"
+                />
+              )}
+              {field.hint && <p id={hintId} class="mt-1 text-xs text-ink/60">{field.hint}</p>}
+            </div>
+          );
+        })
+      }
+    </div>
+
+    <p class="mt-6 rounded-xl bg-gold-300/30 p-3 text-sm text-ink/80">{f.mailtoNote}</p>
+    <p data-sent hidden class="mt-3 rounded-xl bg-jade-50 p-3 text-sm text-jade-700">{f.sentNote}</p>
+    <div class="mt-6 flex flex-wrap justify-end gap-3">
+      <button type="button" data-dialog-close class="btn-outline py-2!">{f.cancel}</button>
+      <button type="submit" class="btn-primary py-2!">{submitLabel}</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('[data-dialog-open]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const dialog = document.getElementById(btn.dataset.dialogOpen ?? '');
+      if (dialog instanceof HTMLDialogElement) dialog.showModal();
+    });
+  });
+
+  document.querySelectorAll<HTMLElement>('[data-dialog-close]').forEach((btn) => {
+    btn.addEventListener('click', () => btn.closest('dialog')?.close());
+  });
+
+  document.querySelectorAll<HTMLFormElement>('form[data-mailto]').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      const data = new FormData(form);
+      const fields: { name: string; label: string; type: string }[] = JSON.parse(form.dataset.fields ?? '[]');
+      const lines = fields.map(({ name, label, type }) => {
+        const value = type === 'checkboxes' ? data.getAll(name).join(', ') : type === 'consent' ? (data.get(name) ? '✓' : '') : String(data.get(name) ?? '').trim();
+        return `${label}: ${value || '—'}`;
+      });
+      const name = String(data.get('name') ?? '').trim();
+      const subject = name ? `${form.dataset.subject} — ${name}` : (form.dataset.subject ?? '');
+      window.location.href = `mailto:${form.dataset.to}?subject=${encodeURIComponent(subject)}&body=${encodeURIComponent(lines.join('\r\n'))}`;
+      form.querySelector<HTMLElement>('[data-sent]')?.removeAttribute('hidden');
+    });
+  });
+</script>

@@ -28,6 +28,16 @@ const en = {
     comingSoon: 'Coming 2028',
     pilot: 'Pilot',
     emailUs: 'Email us',
+    comingSoonBadge: 'Coming soon',
+    enrollmentSoon: 'Enrollment opening soon',
+  },
+  forms: {
+    close: 'Close',
+    cancel: 'Cancel',
+    requiredNote: 'Fields marked * are required.',
+    selectPlaceholder: 'Please select',
+    mailtoNote: 'Submitting opens your email app with this information filled in. Please press Send in your email app to complete your request.',
+    sentNote: 'Your email app should now be open. If it didn’t open, please use a device with an email app set up.',
   },
 
   home: {
@@ -97,6 +107,10 @@ const en = {
     title: 'Our Programs',
     description: 'Mentorship programs from Ruyi Global Foundation for young adults (18–30) and, starting in 2028, youth (12–18).',
     intro: 'Ruyi delivers mentorship online so participants can learn from experienced people wherever they live.',
+    comingSoon: {
+      title: 'Coming soon',
+      text: 'Our programs are being prepared and enrollment will open soon. Check back for updates, or apply now to become a mentor.',
+    },
     network: {
       name: 'Retiree Mentorship Network',
       ages: 'Ages 18–30',
@@ -313,6 +327,24 @@ const en = {
       ],
       commitment: 'Flexible, limited commitment. You set your availability. Mentors volunteer their time.',
       cta: 'Apply as a mentor',
+      form: {
+        title: 'Mentor application',
+        intro: 'Tell us about your experience. Our team will review your application and contact you about next steps, including screening and orientation.',
+        submit: 'Send application',
+        fields: {
+          name: 'Full name',
+          email: 'Email',
+          phone: 'Phone',
+          location: 'City, State',
+          industry: 'Industry / profession',
+          years: 'Years of professional experience',
+          experiences: 'Experiences you can share',
+          availability: 'Conversations you can offer per month',
+          about: 'About you and why you want to mentor',
+          consent: 'I agree to complete a background check and mentor orientation.',
+        },
+        availabilityOptions: ['1–2', '3–4', '5 or more'],
+      },
     },
     organizations: {
       title: 'For Organizations',
@@ -426,7 +458,21 @@ const en = {
         'Enter your amount and send',
       ],
       alt: 'Zelle QR code for donations to Ruyi Global Foundation',
-      receipt: 'For a donation receipt, email us your name, the amount, and the date of your gift.',
+    },
+    receipt: {
+      button: 'Request a donation receipt',
+      title: 'Request a donation receipt',
+      intro: 'After you give, send us these details so we can match your gift and issue a tax receipt.',
+      submit: 'Send request',
+      fields: {
+        name: 'Donor name',
+        bank: 'Bank used for the transfer',
+        account: 'Sending account',
+        accountHint: 'Last 4 digits of the account, or the email/phone used for Zelle. Please do not enter a full account number.',
+        date: 'Date of donation',
+        amount: 'Amount (USD)',
+        replyEmail: 'Email for your receipt',
+      },
     },
     tax: {
       title: 'Tax deductibility',
@@ -443,21 +489,29 @@ const en = {
     title: 'Contact',
     description: 'Contact Ruyi Global Foundation about mentorship, partnerships, or donations.',
     hero: { title: 'Contact Us', subtitle: 'Questions about mentoring, partnering, or giving? We’d love to hear from you.' },
-    emailTitle: 'Email',
+    formTitle: 'Send us a message',
+    formText: 'Use our contact form and we’ll get back to you.',
     formCta: 'Send us a message',
+    form: {
+      title: 'Contact us',
+      submit: 'Send message',
+      fields: { name: 'Your name', email: 'Your email', topic: 'Topic', message: 'Message' },
+      topics: ['General question', 'Mentoring', 'Organization partnership', 'Donations & sponsorship'],
+    },
   },
 
   privacy: {
     title: 'Privacy Policy',
     description: 'How Ruyi Global Foundation collects, uses, and protects personal information.',
     effective: 'Effective October 2026',
+    contactLink: 'Contact us',
     sections: [
       { title: 'Information we collect', body: ['We collect only the information needed to run our programs: contact details, age and education level, goals and interests, availability, and, for scholarship applicants, income verification documents.'] },
       { title: 'How we use it', body: ['To review applications, match participants with mentors, schedule conversations, process payments, verify scholarships, and improve program quality through feedback.'] },
       { title: 'What we never do', body: ['We do not sell personal information. We do not share personal information with third parties except service providers needed to operate the program (for example, payment processing).'] },
       { title: 'Security', body: ['Data is stored in password-protected systems with two-factor authentication for administrators and limited staff access. Payments are processed by PCI-compliant providers. We keep regular backups.'] },
       { title: 'Retention', body: ['Financial records are kept for 7 years and program records for 3 years, then securely deleted.'] },
-      { title: 'Your rights (CCPA)', body: ['Under the California Consumer Privacy Act, you may request access to your data, ask us to delete it, or opt out of data sharing. Email us to make a request.'] },
+      { title: 'Your rights (CCPA)', body: ['Under the California Consumer Privacy Act, you may request access to your data, ask us to delete it, or opt out of data sharing. Use our contact form to make a request.'] },
     ],
   },
 };

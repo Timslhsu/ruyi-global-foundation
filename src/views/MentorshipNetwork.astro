@@ -6,7 +6,10 @@ import StepFlow from '../components/StepFlow.astro';
 import PricingTable from '../components/PricingTable.astro';
 import FAQ from '../components/FAQ.astro';
 import CtaBand from '../components/CtaBand.astro';
+import EnrollButton from '../components/EnrollButton.astro';
+import MailtoForm from '../components/MailtoForm.astro';
 import { formHref } from '../data/site';
+import { mentorFields } from '../data/forms';
 import { localizePath, useContent, type Lang } from '../i18n/utils';
 
 interface Props {
@@ -14,7 +17,9 @@ interface Props {
 }
 
 const { lang } = Astro.props;
-const n = useContent(lang).network;
+const c = useContent(lang);
+const n = c.network;
+const mf = c.getInvolved.mentors.form;
 ---
 
 <BaseLayout lang={lang} title={n.title} description={n.description}>
@@ -96,7 +101,17 @@ const n = useContent(lang).network;
   </section>
 
   <CtaBand title={n.cta.title}>
-    <a href={formHref('mentee', 'Participant application')} class="btn-gold">{n.cta.mentee}</a>
-    <a href={formHref('mentor', 'Mentor application')} class="btn-outline border-white! text-white! hover:bg-white/10!">{n.cta.mentor}</a>
+    <EnrollButton lang={lang} href={formHref('mentee', 'Participant application')} label={n.cta.mentee} variant="gold" onDark />
+    <MailtoForm
+      id="mentor-form"
+      lang={lang}
+      buttonLabel={n.cta.mentor}
+      buttonClass="btn-outline border-white! text-white! hover:bg-white/10!"
+      title={mf.title}
+      intro={mf.intro}
+      subject="Mentor application"
+      fields={mentorFields(lang)}
+      submitLabel={mf.submit}
+    />
   </CtaBand>
 </BaseLayout>
